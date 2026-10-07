@@ -18,6 +18,14 @@ Mesh Repair Lite は、割れた頂点を溶接してから、部品ごとに直
 
 ノートは Colab で上から実行します。GPU は A100 です。始めたあとにランタイムは変えないでください。修復ノードはこのリポジトリを clone します。Google Drive も外部トンネルも使いません。最後のセルが URL を出します。ノートを開いている同じ Google アカウントのブラウザで開いてください。
 
+```mermaid
+flowchart LR
+  A["One image"] --> B["TRELLIS.2 or Pixal3D<br/>ComfyUI 0.38.2"]
+  B --> C["Triangle mesh<br/>holes, non-manifold"]
+  C --> D["Mesh Repair Lite"]
+  D --> E["GLB<br/>boundary 0<br/>non-manifold 0"]
+```
+
 ## Try it
 
 1. Open the notebook in Colab (Runtime → Change runtime type → **A100**).
@@ -42,20 +50,35 @@ Measured on one Pixal3D GLB (699,458 faces):
 
 Most of the apparent holes are duplicated vertices from UV seams (about 1e-6 apart). Voxel remeshing is not required and would damage the surface.
 
+```mermaid
+flowchart LR
+  Raw["Raw mesh<br/>split vertices"] --> Weld["Weld eps 1e-5"]
+  Weld --> Open["Real holes stay<br/>seam copies close"]
+```
+
+UDF builds a shell on both sides of a thin sheet. Each shell can be closed, so watertight does not mean the inner shell is gone.
+
+```mermaid
+flowchart TB
+  Sheet["Thin sheet"] --> UDF["UDF remesh"]
+  UDF --> Outer["Outer shell"]
+  UDF --> Inner["Inner shell"]
+  Outer --> Both["Both can be watertight"]
+  Inner --> Both
+```
+
 ## Mesh Repair Lite
 
-```
-Raw mesh
- → GetMeshInfo
- → RemeshMesh (brief149 settings: udf / qef=false / drops off / smooth=20)
- → DecimateMesh (700,000 faces / midpoint)
- → Mesh Repair Lite
-     1. Weld vertices (eps=1e-5)
-     2. Decimate (GPU QEM, cluster pre-pass on huge meshes, CPU fallback)
-     3. Split connected components, pymeshfix.repair() each one, join again
-        (pymeshlab if a component fails)
-     4. Optional inner-shell removal (kept if it would delete more than 30%)
-     5. Unify normals and write a report
+```mermaid
+flowchart TB
+  Raw["Raw mesh"] --> Info["GetMeshInfo"]
+  Info --> Remesh["RemeshMesh<br/>udf, qef off, smooth 20"]
+  Remesh --> Deci["DecimateMesh<br/>700,000 faces"]
+  Deci --> Weld["Weld vertices<br/>eps 1e-5"]
+  Weld --> QEM["Decimate<br/>GPU QEM"]
+  QEM --> Fix["Split parts<br/>pymeshfix each one"]
+  Fix --> Shell["Inner shell<br/>abort if over 30 percent"]
+  Shell --> Out["Unify normals<br/>write the report"]
 ```
 
 Splitting components is required. Passing every part to pymeshfix at once can drop everything except the largest component.
