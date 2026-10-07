@@ -1,11 +1,22 @@
 # TRELLIS.2 / Pixal3D — Colab mesh repair (V2)
 
-**Author:** YosukeKobayashi  
-**Date:** 2026-10-07
+Yosuke Kobayashi（小林洋介）  
+https://yosuke4061.com/
 
-Run the official ComfyUI template **Pixal3D & TRELLIS.2: Image to Model** on Google Colab (A100 40GB) and open the UI in the browser through Colab's built-in proxy. No ngrok, Cloudflare Tunnel, SSH key, or extra account.
+https://yosuke4061.com/new_toppage/briefings/brief155/  
+https://yosuke4061.com/new_toppage/briefings/brief155_en/
 
-V2 adds a custom node, **Mesh Repair Lite**. It keeps the generated surface and repairs watertight and non-manifold defects.
+TRELLIS.2 and Pixal3D turn one image into a 3D mesh in ComfyUI 0.38.2. The mesh looks clean and still has holes and non-manifold edges. A double shell often stays, because UDF remeshing builds a thin wall from both sides of a sheet.
+
+Mesh Repair Lite welds the split vertices, then repairs each connected part. Boundary edges and non-manifold edges go to zero. A closed inner shell can remain. Watertight does not mean the double shell is gone.
+
+Run the notebook in Colab from top to bottom. Use an A100 GPU runtime. Do not change the runtime after you start. The notebook clones this repo for the repair node. No Google Drive, no ngrok, no SSH tunnel. The last cell prints a URL. Open it in the same Google account that has the notebook open.
+
+TRELLIS.2 と Pixal3D は、1 枚の画像から 3D メッシュを作ります。見た目はきれいでも、穴と非多様体が残ります。UDF は薄い面の両側から殻を作るので、二重シェルも残りやすいです。
+
+Mesh Repair Lite は、割れた頂点を溶接してから、部品ごとに直します。境界と非多様体は 0 まで落ちます。閉じた内殻は、水密のまま残ることがあります。
+
+ノートは Colab で上から実行します。GPU は A100 です。始めたあとにランタイムは変えないでください。修復ノードはこのリポジトリを clone します。Google Drive も外部トンネルも使いません。最後のセルが URL を出します。ノートを開いている同じ Google アカウントのブラウザで開いてください。
 
 ## Try it
 
