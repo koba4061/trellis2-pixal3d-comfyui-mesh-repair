@@ -14,7 +14,7 @@ V2 adds a custom node, **Mesh Repair Lite**. It keeps the generated surface and 
 3. The last cell prints a URL. Open it in the **same Google account** that has the notebook open.
 4. In ComfyUI, load `workflows/trellis2_pixal3d_workflow.json`.
 
-[Open in Colab](https://colab.research.google.com/github/yosuke4061/trellis2-pixal3d-comfyui-mesh-repair/blob/main/comfyui_trellis2_pixal3d_image-to-3d_watertight-mesh-repair_colab.ipynb)
+[Open in Colab](https://colab.research.google.com/github/koba4061/trellis2-pixal3d-comfyui-mesh-repair/blob/main/comfyui_trellis2_pixal3d_image-to-3d_watertight-mesh-repair_colab.ipynb)
 
 The repair node is cloned from this repository. Google Drive is not used. GLB files land in `/content/ComfyUI/output`.
 
