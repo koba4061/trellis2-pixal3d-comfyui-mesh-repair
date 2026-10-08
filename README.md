@@ -3,8 +3,13 @@
 Yosuke Kobayashi（小林洋介）  
 https://yosuke4061.com/
 
+Part 1 / 前編  
 https://yosuke4061.com/new_toppage/briefings/brief155/  
 https://yosuke4061.com/new_toppage/briefings/brief155_en/
+
+Part 2 / 後編  
+https://yosuke4061.com/new_toppage/briefings/brief156/  
+https://yosuke4061.com/new_toppage/briefings/brief156_en/
 
 TRELLIS.2 and Pixal3D turn one image into a 3D mesh in ComfyUI 0.38.2. The mesh looks clean and still has holes and non-manifold edges. A double shell often stays, because UDF remeshing builds a thin wall from both sides of a sheet.
 
